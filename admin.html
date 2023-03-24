@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <title>Bidonit - Online Auction System</title>
-
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!--
@@ -43,7 +42,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <!-- Header -->
     <header class="">
       <nav class="navbar navbar-expand-lg">
-        <div class="container">
+        <div class="container">    <img src="./assets//images/bidonit_logo.png" alt="" width="50" height="50"> </img>
           <a class="navbar-brand" href="index.html"><h2>Bidonit <em>Online Auction System</em></h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -99,11 +98,11 @@ https://templatemo.com/tm-546-sixteen-clothing
           </div>
           <div class="col-md-8">
             <div class="contact-form">
-              <form id="contact" action="" method="post">
+              <div id="contact">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="phoneNumber" type="phone" class="form-control" id="phoneNumber" placeholder="Phone Number" required="">
+                      <input name="email" type="email" class="form-control" id="email" placeholder="Email" required="">
                     </fieldset>
                   </div>              
                   <div class="col-lg-12 col-md-12 col-sm-12" >
@@ -113,11 +112,11 @@ https://templatemo.com/tm-546-sixteen-clothing
                   </div>
                   <div class="col-lg-12" id="signinButton">
                     <fieldset>
-                      <button type="submit" id="form-submit" class="filled-button">Sign In</button>
+                      <button type="submit" id="form-submit" class="filled-button" onclick="login()">Sign In</button>
                     </fieldset>
                   </div>
                  </div>
-              </form>
+                </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -204,6 +203,62 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/isotope.js"></script>
     <script src="assets/js/accordions.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
+    authDomain: "test-project-cdbb7.firebaseapp.com",
+    databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
+    projectId: "test-project-cdbb7",
+    storageBucket: "test-project-cdbb7.appspot.com",
+    messagingSenderId: "124733160779",
+    appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
+    measurementId: "G-RPJP1LE6PD"
+    };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+   
+    </script>
+
+<script>
+  const auth = firebase.auth();
+
+   function login() {
+   const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (email.trim() == "") {
+      alert("Enter Email");
+    }
+    else if (password.trim() == "") {
+      alert("Enter Password");
+    } 
+    else if(email.includes("admin@bidonit.com")){
+     auth
+       .signInWithEmailAndPassword(email, password)
+       .then(result=>{
+        alert("Login Successful")
+       })
+       .catch(function (error) {
+         // Handle Errors here.
+         var errorCode = error.code;
+         var errorMessage = error.message;
+         alert(errorMessage);
+         // ...
+       });
+    }
+    else{
+       alert("Permission denied!")
+    }
+ };
+
+</script>
 
 
     <script language = "text/Javascript"> 
