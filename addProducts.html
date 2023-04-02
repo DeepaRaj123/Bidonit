@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <title>Bidonit - Online Auction System</title>
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!--
@@ -60,14 +61,21 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item" style="display: none;">
                 <a class="nav-link" href="bids.html">My Bids</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" id="userLogin">
                 <a class="nav-link" href="login.html">User Login</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="myProducts.html">My Products</a>
+              </li>
               <li class="nav-item active">
+                <a class="nav-link" href="addProducts.html">Add Products</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="admin.html">Admin</a>
               </li>
             </ul>
           </div>
+          <i class="fa fa-sign-out" id="logout" style="font-size:40px;color:red" onclick="logout()"></i>
         </div>
       </nav>
     </header>
@@ -78,8 +86,8 @@ https://templatemo.com/tm-546-sixteen-clothing
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>Login</h4>
-              <h2>Login to Your Account</h2>
+              <h4>Add your products</h4>
+              <h2>and Wait for BID Notifications</h2>
             </div>
           </div>
         </div>
@@ -93,91 +101,73 @@ https://templatemo.com/tm-546-sixteen-clothing
         <div class="row">
           <div class="col-md-12">
             <div class="section-heading">
-              <h2>Admin account</h2>
+              <h2>Add your product</h2>
             </div>
           </div>
           <div class="col-md-8">
             <div class="contact-form">
-              <div id="contact">
+              <div id="contact" action="" method="post">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="email" type="email" class="form-control" id="email" placeholder="Email" required="">
-                    </fieldset>
-                  </div>              
-                  <div class="col-lg-12 col-md-12 col-sm-12" >
-                    <fieldset>
-                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
+                      <input name="title" type="text" class="form-control" id="title" placeholder="Product Title" required="">
                     </fieldset>
                   </div>
-                  <div class="col-lg-12" id="signinButton">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <button type="submit" id="form-submit" class="filled-button" onclick="login()">Sign In</button>
+                      <input name="price" type="number" class="form-control" id="price" placeholder="Price" required="">
                     </fieldset>
                   </div>
-                 </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <input name="hours" type="number" class="form-control" id="hours" placeholder="Bidding hours" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <input name="image" type="text" class="form-control" id="image" placeholder="Product Image URL" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <textarea name="description" rows="6" class="form-control" id="description" placeholder="Product Description" required=""></textarea>
+                    </fieldset>
+                  </div>
+            
+                  <div class="col-lg-12" id="addButton">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="filled-button" onclick="addProduct()">Add Your Product</button>
+                    </fieldset>
+                  </div>
+    
                 </div>
+              </div>
             </div>
           </div>
           <div class="col-md-4">
             <ul class="accordion">
               <li>
-                  <a>Admin Features</a>
+                  <a>Our Features</a>
+                  <div class="content">
+                    <p>Registered buyers can place bids on auction items easily, view current bid status and bid history.</p>
+                    <p>The system provides reports to sellers on the auction performance, including current and completed auctions and items sold.
+
+                  </div>
               </li>
               <li>
-                  <a>View All Products as well as feedback</a>
+                  <a>Product listing</a>
               </li>
               <li>
-                  <a>Delete other users products</a>
+                  <a>Auction countdown</a>
               </li>
               <li>
-                  <a>Delete fake or unwanted ads</a>
+                  <a>Search and filter</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="happy-clients">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Our Happy Customers</h2>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="owl-clients owl-carousel">
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="1">
-              </div>
-              
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="2">
-              </div>
-              
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="3">
-              </div>
-              
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="4">
-              </div>
-              
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="5">
-              </div>
-              
-              <div class="client-item">
-                <img src="assets/images/client-01.png" alt="6">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     
     <footer>
       <div class="container">
@@ -203,7 +193,6 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/isotope.js"></script>
     <script src="assets/js/accordions.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
@@ -224,39 +213,63 @@ https://templatemo.com/tm-546-sixteen-clothing
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-   
+      // const ref = firebase.storageBucket.ref;
     </script>
+<script>
+
+function addProduct() {
+  const title = document.getElementById("title").value;
+  const price = document.getElementById("price").value;
+  const hours = document.getElementById("hours").value;
+  const image = document.getElementById("image").value;
+  const description = document.getElementById("description").value;
+
+  var newProduct = {
+    title:title,
+    price:price,
+    hours:hours,
+    image:image,
+    description:description,
+    sellerId: localStorage.getItem("uid")
+  }
+  
+   if (title.trim() == ""||price.trim() == ""||hours.trim() == ""||description.trim() == "") {
+     alert("Please fill all the fiels!");
+   }
+
+   else {
+        db.collection("Products").doc().set(newProduct).then(result=>{
+          alert("Product added Successfully!");
+          window.location = "myProducts.html";
+      }).catch(err=>{
+      alert(err)})
+      alert(newProduct);
+
+   }
+  };
+  
+  </script>
 
 <script>
-  const auth = firebase.auth();
+    const auth = firebase.auth();
 
-   function login() {
-   const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    if (email.trim() == "") {
-      alert("Enter Email");
-    }
-    else if (password.trim() == "") {
-      alert("Enter Password");
-    } 
-    else if(email.includes("admin@bidonit.com")){
-     auth
-       .signInWithEmailAndPassword(email, password)
-       .then(result=>{
-        alert("Login Successful")
-       })
-       .catch(function (error) {
-         // Handle Errors here.
-         var errorCode = error.code;
-         var errorMessage = error.message;
-         alert(errorMessage);
-         // ...
-       });
-    }
-    else{
-       alert("Permission denied!")
-    }
- };
+  auth.onAuthStateChanged(function(user){
+   if(user){
+    var uid = user.uid;
+    localStorage.setItem("uid", uid);
+    var email = user.email;
+    document.getElementById("logout").style.display = "block";
+    document.getElementById("userLogin").style.display = "none";
+   }else{
+    document.getElementById("logout").style.display = "none";
+    document.getElementById("userLogin").style.display = "block";
+   }		
+});
+
+function logout(){
+auth.signOut();
+ window.location = "login.html";
+}
 
 </script>
 
@@ -272,42 +285,6 @@ https://templatemo.com/tm-546-sixteen-clothing
       }
     </script>
 
-    <script>
-
-      var signup = true;
-      if(signup){
-        document.getElementById("signup").style.display = "none";
-        document.getElementById("signinButton").style.display = "none";
-
-      }else{
-
-      }
-
-      function showSignIn(){
-        signup = false;
-        document.getElementById("signin").style.display = "none";
-        document.getElementById("signupButton").style.display = "none";
-        document.getElementById("address").style.display = "none";
-        document.getElementById("name").style.display = "none";
-        document.getElementById("email").style.display = "none";
-        document.getElementById("signup").style.display = "block";
-        document.getElementById("signinButton").style.display = "block";
-        document.getElementById("selectOption").style.display = "none";
-      }
-
-      function showSignUp(){
-        signup = true;
-        document.getElementById("signin").style.display = "block";
-        document.getElementById("signupButton").style.display = "block";
-        document.getElementById("address").style.display = "block";
-        document.getElementById("name").style.display = "block";
-        document.getElementById("email").style.display = "block";
-        document.getElementById("signup").style.display = "none";
-        document.getElementById("signinButton").style.display = "none";
-        document.getElementById("selectOption").style.display = "block";
-      }
-      
-    </script>
 
 
   </body>
