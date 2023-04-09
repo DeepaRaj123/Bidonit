@@ -223,6 +223,13 @@ function addProduct() {
   const hours = document.getElementById("hours").value;
   const image = document.getElementById("image").value;
   const description = document.getElementById("description").value;
+  
+  const d = new Date();
+  let year = d.getFullYear();
+    let month = d.getMonth();
+    let day = d.getDay();
+    let hour = d.getHours();
+    var todayTime = new Date(year,month,day,hour);
 
   var newProduct = {
     title:title,
@@ -230,7 +237,8 @@ function addProduct() {
     hours:hours,
     image:image,
     description:description,
-    sellerId: localStorage.getItem("uid")
+    sellerId: localStorage.getItem("uid"),
+    timeStamp: todayTime
   }
   
    if (title.trim() == ""||price.trim() == ""||hours.trim() == ""||description.trim() == "") {

@@ -52,7 +52,7 @@
               <li class="nav-item" id="myProducts" style="display: none;">
                 <a class="nav-link" href="myProducts.html">My Products</a>
               </li>
-              <li class="nav-item active" id="addProducts" style="display: none;">
+              <li class="nav-item" id="addProducts" style="display: none;">
                 <a class="nav-link" href="addProducts.html">Add Products</a>
               </li>
               <li class="nav-item" style="display: none;">
@@ -140,7 +140,7 @@
 
     
     <footer>
-      <div class="container">
+      <div class="container" style="background-color: aliceblue;">
         <div class="row">
           <div class="col-md-12">
             <div class="inner-content">
@@ -187,8 +187,18 @@
     </script>
 
     <script>
+    const todayTime = new Date();
 
-var customersRef = db.collection("Products");
+    function diff_hours(dt2, dt1) 
+    {
+
+      var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+      diff /= (60 * 60);
+      return Math.abs(Math.round(diff));
+      
+    }
+
+    var customersRef = db.collection("Products");
         customersRef
         .get()
         .then((snapshot) => {
@@ -208,9 +218,23 @@ var customersRef = db.collection("Products");
       `;
       }
     else{
-
     for(var i=0;i<data.length;i++){   
 
+      var startTime = data[i].timeStamp;
+      var dat = startTime.toDate()
+
+      var duration = diff_hours(dat,todayTime);
+      var timeLeft =  data[i].hours - duration;
+
+      var timeLeftMessage,backgroundColor;
+
+      if(timeLeft<=0){
+        timeLeftMessage = "Auction closed!";
+        backgroundColor = "#333333";
+      }else{
+        timeLeftMessage = timeLeft+" hours left!";
+        backgroundColor = "#f33f3f";
+      }
       htmlCode =
       htmlCode
    +
@@ -221,6 +245,7 @@ var customersRef = db.collection("Products");
               <div class="down-content">
                 <a href="#"><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>
+                <a href="#"><h4> ${timeLeftMessage}</h4></a>
                 <p>${data[i].description}</p>
                 <ul class="stars">
                   <li><i class="fa fa-star"></i></li>
@@ -230,6 +255,14 @@ var customersRef = db.collection("Products");
                   <li><i class="fa fa-star"></i></li>
                 </ul>
                 <span>Reviews (21)</span>
+                <Button  onclick="viewProduct('${data[i].id}','${timeLeft}')" style="background-color: ${backgroundColor}; color: #fff;
+	font-size: 14px;
+	text-transform: capitalize;
+	font-weight: 300;
+	padding: 10px 20px;
+	border-radius: 5px;
+	display: inline-block;
+	transition: all 0.3s;">Submit a Bid</Button>
               </div>
             </div>
           </div>
@@ -238,6 +271,16 @@ var customersRef = db.collection("Products");
 const allProducts = document.getElementById("all-products");
 allProducts.innerHTML = htmlCode;
 });
+    </script>
+
+    <script language="javascript" type="text/javascript">
+      function viewProduct(value,timeLeft)
+    {
+      if(timeLeft>0){
+        localStorage.setItem("id",value);
+        window.location = "viewProducts.html";
+      }
+    }
     </script>
 
     <script>

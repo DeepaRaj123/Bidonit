@@ -333,12 +333,13 @@ var newQuery = {
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(result=>{
+      console.log(result)
       db.collection(userType).doc().set(newQuery).then(result=>{
         alert("Account created Successfully!");
         if(userType == "Seller"){
           window.location = "addProducts.html";
         }else{
-          window.location = "index.html";
+          window.location = "viewProducts.html";
         }
     }).catch(err=>{
     alert(err)})
