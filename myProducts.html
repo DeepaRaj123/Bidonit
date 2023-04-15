@@ -129,16 +129,16 @@ https://templatemo.com/tm-546-sixteen-clothing
 
     <script>
       // Your web app's Firebase configuration
-    const firebaseConfig = {
-    apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
-    authDomain: "test-project-cdbb7.firebaseapp.com",
-    databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
-    projectId: "test-project-cdbb7",
-    storageBucket: "test-project-cdbb7.appspot.com",
-    messagingSenderId: "124733160779",
-    appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
-    measurementId: "G-RPJP1LE6PD"
-    };
+ const firebaseConfig = {
+  apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
+  authDomain: "test-project-cdbb7.firebaseapp.com",
+  databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
+  projectId: "test-project-cdbb7",
+  storageBucket: "test-project-cdbb7.appspot.com",
+  messagingSenderId: "124733160779",
+  appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
+  measurementId: "G-RPJP1LE6PD"
+};
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -167,9 +167,22 @@ https://templatemo.com/tm-546-sixteen-clothing
   `;
   }
 else{
-
+  Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+var sum = [];
 for(var i=0;i<data.length;i++){   
-
+ 
+  var bidStatus;
+  if(data[i].bids && data[i].bids.length>0){
+    for(var j=0;j<data[i].bids.length;j++){ 
+       sum.push(data[i].bids[j].bidAmount);
+    }
+    sum.sort(function(a, b){return a - b});
+    bidStatus = "Highest Bid : "+sum[sum.length-1];
+  }else{
+    bidStatus = "Bid Status : No bids yet";
+  }
   htmlCode =
   htmlCode
    +
@@ -180,7 +193,7 @@ for(var i=0;i<data.length;i++){
               <div class="down-content">
                 <a href="#"><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>
-                <p>${data[i].description}</p>
+                <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
@@ -188,9 +201,9 @@ for(var i=0;i<data.length;i++){
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
                 </ul>
+                <p>${bidStatus}</p>
                 <span>Reviews (21)</span>
-                <i class="fa fa-trash" ></i>
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash" onclick="deleteProduct('${data[i].id}')"></i>
               </div>
             </div>
           </div>
@@ -200,6 +213,21 @@ const allProducts = document.getElementById("all-products");
 allProducts.innerHTML = htmlCode;
 });
     </script>
+
+<script language="javascript" type="text/javascript">
+  function deleteProduct(value)
+  {
+    var productRef = db.collection('Products').doc(value);
+    productRef.get().then(function(querySnapshot) {
+      querySnapshot.ref.delete().then(result=>{
+        alert("Product deleted successfully!");
+        location.reload();
+      }).catch(err=>{
+        alert(err);
+      })
+});
+  }
+</script>
 
 <script>
     const auth = firebase.auth();
