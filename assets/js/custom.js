@@ -99,9 +99,9 @@ jQuery( document ).ready(function( $ ) {
                 dots: true,
                 items: 1,
                 margin: 0,
-                autoplay: false,
+                autoplay: true,
                 smartSpeed: 700,
-                autoplayTimeout: 6000,
+                autoplayTimeout: 2000,
                 responsive: {
                     0: {
                         items: 1,
@@ -294,3 +294,14 @@ $(document).ready(function () {
             $(_this).siblings('input#number').val(value);
         }
     });
+
+    $(".toggle-password").click(function() {
+
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+          input.attr("type", "text");
+        } else {
+          input.attr("type", "password");
+        }
+      });
