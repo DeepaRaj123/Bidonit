@@ -91,7 +91,7 @@ https://templatemo.com/tm-546-sixteen-clothing
       </div>
     </div>
 
-    <section id="services">
+    <section id="services" style="display: none;">
         <div class="container-fluid">
            <div class="row row-sm">
               <div class="col-md-6 _boxzoom">
@@ -119,10 +119,14 @@ https://templatemo.com/tm-546-sixteen-clothing
                        </div>
                        </div>
                        <div class="_p-features" id="paragraph">
-                          <span> Description About this product:- </span>
-                                                
+                          <span> Description About this product:- </span>                      
                        </div>
-                 
+                       <div class="_p-features" id="paragraph">
+                        <label for=""> <span>Number of Bids:- </span> <span id="numberOfBids">0</span></label>
+                     </div>
+                     <div class="_p-features" id="paragraph">
+                      <label for=""> <span>Highest Bid Amount of the product:- </span> <span id="highestBid">0</span></label>
+                   </div>
                       <form id="form1">
                         <div class="field" style="display: none;">
                           <label for="to_name">to_name</label>
@@ -263,6 +267,7 @@ function diff_hours(dt2, dt1)
   `;
   }
 else{
+  servicesSection.style.display = "block";
 
 for(var i=0;i<data.length;i++){   
   
@@ -321,6 +326,9 @@ allProducts.innerHTML = htmlCode;
     const price = document.getElementById("price");
     const paragraph = document.getElementById("paragraph");
     const productImage = document.getElementById("productImage");
+    const numberOfBids = document.getElementById("numberOfBids");
+    const highestBid = document.getElementById("highestBid");
+
     const p1 = document.getElementById("p1");
     const p2 = document.getElementById("p2");
     const p3 = document.getElementById("p3");
@@ -341,6 +349,15 @@ allProducts.innerHTML = htmlCode;
         p2.src = data.image;
         p3.src = data.image;
         p4.src = data.image;
+        var sum = [];
+        numberOfBids.innerText = data.bids.length;
+        if(data.bids && data.bids.length>0){
+          for(var j=0;j<data.bids.length;j++){ 
+            sum.push(data.bids[j].bidAmount);
+          }
+          sum.sort(function(a, b){return a - b});
+          highestBid.innerText = sum[sum.length-1];
+        }
     });
     function viewProduct(value,title,amount,description,productimage)
     {
@@ -421,13 +438,13 @@ document.getElementById('form1')
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
             var customersRef = db.collection("Bidder").where("email", '==', userEmail);
-            var bidAmount = document.getElementById("bidAmount").value;
-
+            var bidAmount = parseInt(document.getElementById("bidAmount").value);
             customersRef
             .get()
             .then((snapshot) => {
                 if(snapshot.docs.length>0){
                     db.collection("Products").doc(productId).get().then(result=>{
+                    if(bidAmount> parseInt(result.data().price)){  
                     if(result.data().bids){
                     if(result.data().bids.length>0){
                         for(var i=0;i<result.data().bids.length;i++){
@@ -453,7 +470,9 @@ document.getElementById('form1')
                       alert(JSON.stringify(err));
                     });
                       });
-
+                    }else{
+                      alert("Bid Amount should not be lesser than product price!");
+                    }
                     }).catch(err=>{
                         alert(err)
                     }).catch(err=>{
