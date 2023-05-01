@@ -104,7 +104,14 @@
             <div class="section-heading">
               <h2>Current Auctions</h2>
               <a href="viewProducts.html">view all products <i class="fa fa-angle-right"></i></a>
+
+            <div class="search-box" >
+              <input class="search-input" id="search-input" type="text" placeholder="Search products..">
+              <button class="search-btn" onclick="searchInput()"><i class="fas fa-search"></i></button>
             </div>
+         
+            </div>
+            
           </div>
         </div>
         <div class="row" id="all-products">
@@ -156,6 +163,8 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!-- You just need to get this field. Start -->
+    <script src="https://kit.fontawesome.com/d97b87339f.js" crossorigin="anonymous"></script>
 
     <!-- Additional Scripts -->
     <script src="assets/js/custom.js"></script>
@@ -170,16 +179,16 @@
 
     <script>
       // Your web app's Firebase configuration
- const firebaseConfig = {
-  apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
-  authDomain: "test-project-cdbb7.firebaseapp.com",
-  databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
-  projectId: "test-project-cdbb7",
-  storageBucket: "test-project-cdbb7.appspot.com",
-  messagingSenderId: "124733160779",
-  appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
-  measurementId: "G-RPJP1LE6PD"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
+      authDomain: "test-project-cdbb7.firebaseapp.com",
+      databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
+      projectId: "test-project-cdbb7",
+      storageBucket: "test-project-cdbb7.appspot.com",
+      messagingSenderId: "124733160779",
+      appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
+      measurementId: "G-RPJP1LE6PD"
+    };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -197,8 +206,14 @@
       return Math.abs(Math.round(diff));
       
     }
-
-    var customersRef = db.collection("Products");
+    showData(null);
+    function showData(switchToken){
+    var customersRef;
+    if(switchToken == null){
+      customersRef = db.collection("Products");
+    }else{
+      customersRef = db.collection("Products").where("title","==",switchToken);
+    }
         customersRef
         .get()
         .then((snapshot) => {
@@ -230,7 +245,26 @@
       timeLeftMessage = timeLeft+" hours left!";
 
       if(timeLeft>0){
-     
+
+      var starsCode = ``;
+      var ratingsCount = 0;
+
+      if(data[i].ratings.length>0){
+        var sum = 0;
+        for(var j=0;j<data[i].ratings.length;j++){ 
+        sum = sum + (data[i].ratings[j].ratingsCount);
+        }
+
+        var average = Math.floor(sum/data[i].ratings.length)
+        for(var k=0;k<parseInt(average);k++){
+          starsCode = starsCode + `<li><i class="fa fa-star"></i></li>`
+        }
+        ratingsCount = data[i].ratings.length;
+
+      }else{
+        starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
+      }
+
       htmlCode =
       htmlCode
    +
@@ -241,24 +275,24 @@
               <div class="down-content">
                 <a href="#"><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>
+                
                 <a href="#"><h4> ${timeLeftMessage}</h4></a>
                 <p class="fifty-chars">${data[i].description}</p>
+                
                 <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
+                  ${starsCode}
+                  
                 </ul>
-                <span>Reviews (21)</span>
+                <p class="stars">Reviews (${ratingsCount})</p>
+
                 <Button  onclick="viewProduct('${data[i].id}','${timeLeft}')" style="background-color:#f33f3f; color: #fff;
-	font-size: 14px;
-	text-transform: capitalize;
-	font-weight: 300;
-	padding: 10px 20px;
-	border-radius: 5px;
-	display: inline-block;
-	transition: all 0.3s;">Submit a Bid</Button>
+                font-size: 14px;
+                text-transform: capitalize;
+                font-weight: 300;
+                padding: 10px 20px;
+                border-radius: 5px;
+                display: inline-block;
+                transition: all 0.3s;">Submit a Bid</Button>
               </div>
             </div>
           </div>
@@ -266,7 +300,6 @@
 }else if(data[i].bids){
   var sum = [];
 
-  console.log(data[i].bids[0].email)
   for(var j=0;j<data[i].bids.length;j++){
     sum.push(data[i].bids[j].bidAmount);
     sum.sort(function(a, b){return a - b})
@@ -303,7 +336,7 @@
             </div>
           </div>
 `;}}}
-if(htmlCode == ``){
+if(htmlCode == ``&& i ==data.length-1 ){
   htmlCode =    `
 
 <p style="color:black; margin-left:400px;"> No products under auction, please check later! </p>
@@ -314,6 +347,7 @@ if(htmlCode == ``){
 const allProducts = document.getElementById("all-products");
 allProducts.innerHTML = htmlCode;
 });
+    }
     </script>
 
 <script>
@@ -399,6 +433,14 @@ allProducts.innerHTML = htmlCode;
           t.value='';         // with more chance of typos
           t.style.color='#fff';
           }
+      }
+    </script>
+
+    <script>
+      function searchInput(){
+        var searchText  = document.getElementById("search-input").value;
+        showData(searchText);
+        document.getElementById("search-input").value = "";
       }
     </script>
 

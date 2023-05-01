@@ -281,6 +281,25 @@ for(var i=0;i<data.length;i++){
       timeLeftMessage = timeLeft+" hours left!";
 
       if(timeLeft>0){
+
+        var starsCode = ``;
+      var ratingsCount = 0;
+
+      if(data[i].ratings.length>0){
+        var sum = 0;
+        for(var j=0;j<data[i].ratings.length;j++){ 
+        sum = sum + (data[i].ratings[j].ratingsCount);
+        }
+
+        var average = Math.floor(sum/data[i].ratings.length)
+        for(var k=0;k<parseInt(average);k++){
+          starsCode = starsCode + `<li><i class="fa fa-star"></i></li>`
+        }
+        ratingsCount = data[i].ratings.length;
+
+      }else{
+        starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
+      }
     
   htmlCode =
   htmlCode
@@ -295,13 +314,10 @@ for(var i=0;i<data.length;i++){
                 <a ><h4> ${timeLeftMessage}</h4></a>
                 <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
+                  ${starsCode}
+                  
                 </ul>
-                <span>Reviews (21)</span>
+                <p class="stars">Reviews (${ratingsCount})</p>
               </div>
             </div>
           </div>
@@ -465,7 +481,7 @@ document.getElementById('form1')
                       emailjs.sendForm(serviceID, templateID, form1)
                     .then(() => {
                       alert('Your Bid Submitted Sucessfully!'); 
-                      location.reload();          
+                      window.location = "ratings.html";                              
                     }, (err) => {
                       alert(JSON.stringify(err));
                     });

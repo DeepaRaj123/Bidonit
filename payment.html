@@ -127,8 +127,9 @@
                     }
                     db.collection("Products").doc(productId).update({
                     "bids": userEmails}).then(result=>{
+                    localStorage.setItem("id",productId);    
                     alert('Payment Successful! Your order will be delivered in 5 business days.');
-                    window.location = "index.html";                              
+                    window.location = "ratings.html";                              
                       });
                     }).catch(err=>{
                         alert(err)
