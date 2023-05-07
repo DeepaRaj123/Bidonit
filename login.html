@@ -119,6 +119,12 @@ https://templatemo.com/tm-546-sixteen-clothing
                       <input name="phoneNumber" type="phone" class="form-control" id="phoneNumber" placeholder="Phone Number" required="">
                     </fieldset>
                   </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <label for="" id="identityProofLabel">Identity Proof*</label>
+                      <input name="identityProof" type="file" class="form-control" id="identityProof" placeholder="Adhar/Voter ID" required="">
+                    </fieldset>
+                  </div>
                   <div class="col-lg-12">
                     <fieldset>
                       <label for="" id="yourAddressLabel">Your Address*</label>
@@ -133,6 +139,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                        <option>Bidder</option>
                        <option>Seller</option>
                     </select>
+
                   </fieldset>
                  </div>
                  
@@ -264,7 +271,8 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script> 
 
     <script>
       // Your web app's Firebase configuration
@@ -332,15 +340,10 @@ const emailAddressLabel = document.getElementById("emailAddressLabel");
 const phoneNumberLabel = document.getElementById("phoneNumberLabel");
 const passwordLabel = document.getElementById("passwordLabel");
 const confirmpasswordLabel = document.getElementById("confirmpasswordLabel");
+const ref = firebase.storage().ref();
+const file = document.querySelector("#identityProof").files[0];
 
-var newQuery = {
-  email:email,
-  name:name,
-  address:address,
-  phoneNumber:phoneNumber,
-  password:password,
-  userType:userType
-}
+console.log(file)
 
  if (email.trim() == "") {
    alert("Email missing!");
@@ -366,8 +369,29 @@ var newQuery = {
  else if(password.trim() != confirmPassword.trim()){
   alert("Password and Confirm Password must match");
  }
+ else if(file == undefined){
+  alert("Upload Identity Proof");
+ }
  else {
-  auth
+  const file = document.querySelector("#identityProof").files[0];
+const fileName = +new Date() + "-" + file.name;
+      const metadata = {
+         contentType: file.type
+      };
+      const task = ref.child(fileName).put(file, metadata);task
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(url => {
+
+var newQuery = {
+  email:email,
+  name:name,
+  address:address,
+  phoneNumber:phoneNumber,
+  password:password,
+  userType:userType,
+  identityProof:url
+}
+      auth
     .createUserWithEmailAndPassword(email, password)
     .then(result=>{
       db.collection(userType).doc().set(newQuery).then(result=>{
@@ -388,6 +412,9 @@ var newQuery = {
       alert(errorMessage);
       // ...
     });
+   })
+   .catch(console.error);
+ 
  }
 
 };
@@ -423,6 +450,8 @@ var newQuery = {
         document.getElementById("signupButton").style.display = "none";
         document.getElementById("address").style.display = "none";
         document.getElementById("name").style.display = "none";
+        document.getElementById("identityProofLabel").style.display = "none";
+        document.getElementById("identityProof").style.display = "none";
         document.getElementById("phoneNumber").style.display = "none";
         document.getElementById("signup").style.display = "block";
         document.getElementById("signinButton").style.display = "block";
@@ -451,11 +480,11 @@ var newQuery = {
         document.getElementById("phoneNumberLabel").style.display = "block";
         document.getElementById("phoneNumber").style.display = "block";
         document.getElementById("fullnameLabel").style.display = "block";
-
+        document.getElementById("identityProofLabel").style.display = "block";
+        document.getElementById("identityProof").style.display = "block";
       }
       
     </script>
-
 
   </body>
 

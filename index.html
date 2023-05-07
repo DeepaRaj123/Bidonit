@@ -175,8 +175,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -249,7 +249,7 @@
       var starsCode = ``;
       var ratingsCount = 0;
 
-      if(data[i].ratings.length>0){
+      if(data[i].ratings && data[i].ratings.length>0){
         var sum = 0;
         for(var j=0;j<data[i].ratings.length;j++){ 
         sum = sum + (data[i].ratings[j].ratingsCount);
@@ -310,7 +310,7 @@
   `
   <div class="col-md-4">
             <div class="product-item">
-              <a href="#"><img src=${data[i].image} alt="" width="370" height="170"></a>
+              <a href="#"><img src=${data[i].image[0]} alt="" width="370" height="170"></a>
               <div class="down-content">
                 <a href="#"><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>

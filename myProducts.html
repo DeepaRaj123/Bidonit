@@ -186,8 +186,8 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
  const firebaseConfig = {
@@ -328,10 +328,22 @@ customersRef
     price.innerText = data.price;
     paragraph.innerText = data.description;
     productImage.src = data.image;
-    p1.src = data.image;
-    p2.src = data.image;
-    p3.src = data.image;
-    p4.src = data.image;
+    p1.src = data.image[0];
+        if(data.image[1]){
+          p2.src = data.image[1];
+        }else{
+          p2.src = data.image[0];
+        }
+        if(data.image[2]){
+          p3.src = data.image[2];
+        }else{
+          p3.src = data.image[0];
+        }
+        if(data.image[3]){
+          p4.src = data.image[3];
+        }else{
+          p4.src = data.image[0];
+        }
     var sum = [];
     if(data.bids){
       numberOfBids.innerText = data.bids.length;
@@ -351,10 +363,22 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
     price.innerText = amount;
     paragraph.innerText = description;
     productImage.src = productimage;
-    p1.src = productimage;
-    p2.src = productimage;
-    p3.src = productimage;
-    p4.src = productimage;
+    p1.src = data.productimage[0];
+        if(data.productimage[1]){
+          p2.src = data.productimage[1];
+        }else{
+          p2.src = data.productimage[0];
+        }
+        if(data.productimage[2]){
+          p3.src = data.productimage[2];
+        }else{
+          p3.src = data.productimage[0];
+        }
+        if(data.productimage[3]){
+          p4.src = data.productimage[3];
+        }else{
+          p4.src = data.productimage[0];
+        }
     var sum = [];
     numberOfBids.innerText = numberOfBidsValue;
     highestBid.innerText = highestBidValue;

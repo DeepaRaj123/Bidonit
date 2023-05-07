@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <title>Bidonit - Online Auction System</title>
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!--
@@ -49,22 +50,22 @@ https://templatemo.com/tm-546-sixteen-clothing
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home
+              <li class="nav-item active">
+                <a class="nav-link" href="adminHome.html">Homepage
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
-              <li class="nav-item" style="display: none;">
-                <a class="nav-link" href="products.html">My Products</a>
-              </li>
-              <li class="nav-item" style="display: none;">
-                <a class="nav-link" href="bids.html">My Bids</a>
+              <li class="nav-item">
+                <a class="nav-link" href="sellers.html">Sellers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.html">User Login</a>
+                <a class="nav-link" href="bidders.html">Bidders</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="admin.html">Admin</a>
+              <li class="nav-item">
+                <a class="nav-link" href="products.html">Products</a>
+              </li>
+              <li class="nav-item" onclick="logout()">
+                <a class="nav-link" href="admin.html">Admin Logout</a>
               </li>
             </ul>
           </div>
@@ -78,66 +79,70 @@ https://templatemo.com/tm-546-sixteen-clothing
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>Login</h4>
-              <h2>Login to Your Account</h2>
+              <h2>Admin Dashboard</h2>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="ag-format-container">
+        <div class="ag-courses_box">
+          <div class="ag-courses_item">
+            <a href="#" class="ag-courses-item_link">
+              <div class="ag-courses-item_bg"></div>
+      
+              <div class="ag-courses-item_title" onclick="navigateToSellers()">
+               Sellers
+              </div>
+      
+              <div class="ag-courses-item_date-box">
+                Total:
+                <span class="ag-courses-item_date" id="sellersCount">
+                  0
+                </span>
+              </div>
+            </a>
+          </div>
+      
+          <div class="ag-courses_item" onclick="navigateToBidders()">
+            <a href="#" class="ag-courses-item_link">
+              <div class="ag-courses-item_bg"></div>
+      
+              <div class="ag-courses-item_title">
+                Bidders
+              </div>
+      
+              <div class="ag-courses-item_date-box">
+                Total:
+                <span class="ag-courses-item_date" id="biddersCount">
+                  0
+                </span>
+              </div>
+            </a>
+          </div>
+      
+          <div class="ag-courses_item" onclick="navigateToProducts()">
+            <a href="#" class="ag-courses-item_link">
+              <div class="ag-courses-item_bg"></div>
+      
+              <div class="ag-courses-item_title">
+                Products
+              </div>
+      
+              <div class="ag-courses-item_date-box">
+                Total:
+                <span class="ag-courses-item_date" id="productsCount">
+                  0
+                </span>
+              </div>
+            </a>
+          </div>
+      
+        </div>
+      </div>
 
     
-    <div class="send-message">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Admin account</h2>
-            </div>
-          </div>
-          <div class="col-md-8">
-            <div class="contact-form">
-              <div id="contact">
-                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12">
-                    <fieldset>
-                      <input name="email" type="email" class="form-control" id="email" placeholder="Email" required="">
-                    </fieldset>
-                  </div>              
-                  <div class="col-lg-12 col-md-12 col-sm-12" >
-                    <fieldset>
-                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
-                    </fieldset>
-                  </div>
-                  <div class="col-lg-12" id="signinButton">
-                    <fieldset>
-                      <button type="submit" id="form-submit" class="filled-button" onclick="login()">Sign In</button>
-                    </fieldset>
-                  </div>
-                 </div>
-                </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <ul class="accordion">
-              <li>
-                  <a>Admin Features</a>
-              </li>
-              <li>
-                  <a>View All Products as well as feedback</a>
-              </li>
-              <li>
-                  <a>Delete other users products</a>
-              </li>
-              <li>
-                  <a>Delete fake or unwanted ads</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="happy-clients">
       <div class="container">
@@ -203,7 +208,6 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/isotope.js"></script>
     <script src="assets/js/accordions.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
@@ -227,40 +231,6 @@ https://templatemo.com/tm-546-sixteen-clothing
    
     </script>
 
-<script>
-  const auth = firebase.auth();
-
-   function login() {
-   const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    if (email.trim() == "") {
-      alert("Enter Email");
-    }
-    else if (password.trim() == "") {
-      alert("Enter Password");
-    } 
-    else if(email.includes("admin@bidonit.com")){
-     auth
-       .signInWithEmailAndPassword(email, password)
-       .then(result=>{
-        alert("Login Successful");
-        window.location = "adminHome.html";
-       })
-       .catch(function (error) {
-         // Handle Errors here.
-         var errorCode = error.code;
-         var errorMessage = error.message;
-         alert(errorMessage);
-       });
-    }
-    else{
-       alert("Permission denied!")
-    }
- };
-
-</script>
-
-
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
       function clearField(t){                   //declaring the array outside of the
@@ -273,41 +243,68 @@ https://templatemo.com/tm-546-sixteen-clothing
     </script>
 
     <script>
+        function navigateToSellers(){
+            window.location = "sellers.html"; 
+        }
 
-      var signup = true;
-      if(signup){
-        document.getElementById("signup").style.display = "none";
-        document.getElementById("signinButton").style.display = "none";
+        function navigateToBidders(){
+            window.location = "bidders.html"; 
+        }
 
-      }else{
-
-      }
-
-      function showSignIn(){
-        signup = false;
-        document.getElementById("signin").style.display = "none";
-        document.getElementById("signupButton").style.display = "none";
-        document.getElementById("address").style.display = "none";
-        document.getElementById("name").style.display = "none";
-        document.getElementById("email").style.display = "none";
-        document.getElementById("signup").style.display = "block";
-        document.getElementById("signinButton").style.display = "block";
-        document.getElementById("selectOption").style.display = "none";
-      }
-
-      function showSignUp(){
-        signup = true;
-        document.getElementById("signin").style.display = "block";
-        document.getElementById("signupButton").style.display = "block";
-        document.getElementById("address").style.display = "block";
-        document.getElementById("name").style.display = "block";
-        document.getElementById("email").style.display = "block";
-        document.getElementById("signup").style.display = "none";
-        document.getElementById("signinButton").style.display = "none";
-        document.getElementById("selectOption").style.display = "block";
-      }
-      
+        function navigateToProducts(){
+            window.location = "products.html"; 
+        }
     </script>
+
+    <script>
+        var sellerCount = document.getElementById("sellersCount");
+        var bidderCount = document.getElementById("biddersCount");
+        var productsCount = document.getElementById("productsCount");
+
+        var sellerRef = db.collection("Seller");
+        var bidderRef = db.collection("Bidder");
+        var productsRef = db.collection("Products");
+
+        sellerRef
+        .get()
+        .then((snapshot) => {
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+            sellerCount.innerHTML = data.length;
+        });
+
+        bidderRef
+        .get()
+        .then((snapshot) => {
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+            bidderCount.innerHTML = data.length;
+        });
+
+        productsRef
+        .get()
+        .then((snapshot) => {
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+            productsCount.innerHTML = data.length;
+        });
+
+
+    </script>
+
+<script>
+    const auth = firebase.auth();
+        function logout(){
+            auth.signOut();
+            window.location = "login.html";
+        }
+  </script>
 
 
   </body>

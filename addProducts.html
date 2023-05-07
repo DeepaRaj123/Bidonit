@@ -125,7 +125,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
-                      <input name="image" type="text" class="form-control" id="image" placeholder="Product Image URL" required="">
+                      <input name="image" type="file" class="form-control" id="image" placeholder="Product Image URL" required="" multiple>
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
@@ -151,7 +151,6 @@ https://templatemo.com/tm-546-sixteen-clothing
                   <div class="content">
                     <p>Registered buyers can place bids on auction items easily, view current bid status and bid history.</p>
                     <p>The system provides reports to sellers on the auction performance, including current and completed auctions and items sold.
-
                   </div>
               </li>
               <li>
@@ -196,8 +195,8 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
  const firebaseConfig = {
@@ -221,34 +220,56 @@ function addProduct() {
   const title = document.getElementById("title").value;
   const price = document.getElementById("price").value;
   const hours = document.getElementById("hours").value;
-  const image = document.getElementById("image").value;
   const description = document.getElementById("description").value;
-  
+  const ref = firebase.storage().ref();
+  const selectedFiles = [...document.querySelector("#image").files];
 
     var todayTime = new Date();
 
-  var newProduct = {
+   if (title.trim() == ""||price.trim() == ""||hours.trim() == ""||description.trim() == ""||selectedFiles==undefined) {
+     alert("Please fill all the fields!");
+   }
+
+   else {
+    console.log(selectedFiles.length)
+    var images = [];
+        for(var i=0;i<selectedFiles.length;i++){
+       const fileName = +new Date() + "-" + selectedFiles[i].name;
+      const metadata = {
+         contentType: selectedFiles[i].type
+      };
+      const task = ref.child(fileName).put(selectedFiles[i], metadata);
+      task
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(url => {
+        images.push(url);
+        console.log(url)
+
+        if(selectedFiles.length == images.length){
+          var newProduct = {
     title:title,
     price:price,
     hours:hours,
-    image:image,
+    image:images,
     description:description,
     sellerId: localStorage.getItem("uid"),
     timeStamp: todayTime
   }
-  
-   if (title.trim() == ""||price.trim() == ""||hours.trim() == ""||description.trim() == "") {
-     alert("Please fill all the fiels!");
-   }
 
-   else {
-        db.collection("Products").doc().set(newProduct).then(result=>{
-          alert("Product added Successfully!");
-          window.location = "myProducts.html";
+  db.collection("Products").doc().set(newProduct).then(result=>{
+
+alert("Product added Successfully!");
+window.location = "myProducts.html";
+}).catch(err=>{
+alert(err)})
+        }
+
       }).catch(err=>{
-      alert(err)})
-      alert(newProduct);
+        alert(err)
+      })
 
+        }
+  
    }
   };
   
