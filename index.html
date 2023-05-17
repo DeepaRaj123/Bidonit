@@ -281,7 +281,7 @@
                 
                 <ul class="stars">
                   ${starsCode}
-                  
+                
                 </ul>
                 <p class="stars">Reviews (${ratingsCount})</p>
 
@@ -387,7 +387,14 @@ allProducts.innerHTML = htmlCode;
       {
         if(timeLeft>0){
           localStorage.setItem("id",value);
-          window.location = "viewProducts.html";
+          auth.onAuthStateChanged(function(user){
+       if(user){
+        window.location = "viewProducts.html";
+       }else{
+        alert("Please login to submit bid");
+        window.location = "login.html";
+       }		
+   });
         }
       }
     </script>
