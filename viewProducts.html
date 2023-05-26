@@ -61,9 +61,6 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item" id="myProducts">
                 <a class="nav-link" href="myProducts.html">My products</a>
               </li>
-              <li class="nav-item" id="addProducts">
-                <a class="nav-link" href="addProducts.html">Add products</a>
-              </li>
               <li class="nav-item" id="userLogin">
                 <a class="nav-link" href="login.html">User Login</a>
               </li>
@@ -278,7 +275,11 @@ for(var i=0;i<data.length;i++){
       var timeLeft =  data[i].hours - duration;
 
       var timeLeftMessage;
+      if(timeLeft>=24){
+        timeLeftMessage = Math.round(timeLeft/24) +" days left!";
+      }else{
       timeLeftMessage = timeLeft+" hours left!";
+      }
 
       if(timeLeft>0){
 
@@ -315,7 +316,6 @@ for(var i=0;i<data.length;i++){
                 <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
                   ${starsCode}
-                  
                 </ul>
                 <p class="stars">Reviews (${ratingsCount})</p>
               </div>
@@ -521,7 +521,7 @@ document.getElementById('form1')
                     })
                 }else{
                     alert("Valid Bidder Account is required to submit Bid!");
-                    window.location = "index.html";
+                    window.location = "login.html";
                 }
             });
         }

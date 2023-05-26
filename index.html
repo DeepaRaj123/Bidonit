@@ -109,7 +109,60 @@
               <input class="search-input" id="search-input" type="text" placeholder="Search products..">
               <button class="search-btn" onclick="searchInput()"><i class="fas fa-search"></i></button>
             </div>
-         
+            <div class="search-box" >
+            <div class="col-lg-3 col-md-12 col-sm-12" id="selectOption" style="margin-bottom: 30px;">
+              <fieldset>
+              <select  class="form-control" id="categoryType">
+                <option>Select category</option>
+                <option>Autographed Items</option>
+                <option>Art works</option>
+                <option>Consumer Electronics</option>
+                <option>Books</option>
+                <option>Personal Care and Beauty</option>
+                <option>Food and Beverage</option>
+                <option>Furniture and Decor</option>
+                <option>Apparel and Accessories</option>
+                <option>Other</option>
+              </select>
+            </fieldset>
+           </div>
+           <div class="col-lg-3 col-md-12 col-sm-12" id="selectOption" style="margin-bottom: 30px;">
+            <fieldset>
+            <select  class="form-control" id="priceType">
+               <option>Select price range</option>
+               <option>All Prices</option>
+               <option>Under ₹300</option>
+               <option>₹300 - ₹500</option>
+               <option>₹500 - ₹1000</option>
+               <option>Over ₹1000</option>
+            </select>
+          </fieldset>
+         </div>
+         <div class="col-lg-3 col-md-12 col-sm-12" id="selectOption" style="margin-bottom: 30px;">
+          <fieldset>
+          <select  class="form-control" id="sellerRatingType">
+             <option>Select seller rating</option>
+             <option>5</option>
+             <option>4</option>
+             <option>3</option>
+             <option>2</option>
+             <option>1</option>
+             <option>0</option>
+          </select>
+        </fieldset>
+       </div>
+       <div class="col-lg-3 col-md-12 col-sm-12" id="selectOption" style="margin-bottom: 30px;">
+        <fieldset>
+        <select  class="form-control" id="auctionTimeType">
+           <option>Sort by Auction time</option>
+           <option>1 Day</option>
+           <option>1 Week</option>
+           <option>1 Month</option>
+        </select>
+      </fieldset>
+     </div>
+          </div>
+
             </div>
             
           </div>
@@ -206,23 +259,82 @@
       return Math.abs(Math.round(diff));
       
     }
-    showData(null);
-    function showData(switchToken){
+    showData("","","","","");
+    function showData(switchToken,categoryType,priceType,sellerRatingType,auctionTimeType){
     var customersRef;
-    if(switchToken == null){
+  
       customersRef = db.collection("Products");
-    }else{
-      customersRef = db.collection("Products").where("title","==",switchToken);
-    }
+    
         customersRef
         .get()
         .then((snapshot) => {
-            var data = snapshot.docs.map((doc) => ({
+            var data1 = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
             }));
+   
+            var data = [], minPrice = 0, maxPrice = 20000;
+          if(priceType == "Under ₹300") {
+            maxPrice = 300;
+          } 
+          else if(priceType == "₹300 - ₹500") {
+            minPrice = 301, maxPrice = 500;
+          }
+          else if(priceType == "₹500 - ₹1000") {
+            minPrice = 501, maxPrice = 1000;
+          }
+          else if(priceType == "Over ₹1000") {
+            minPrice = 1001;
+          }
+          else if(priceType == "") {
+            minPrice = 0,maxPrice=20000;
+          }
+          var ratingsCount = 0;
+            for(var i=0;i<data1.length;i++){
 
-         
+            if(data1[i].ratings&&data1[i].ratings.length>0){
+              var sum = 0;
+              for(var j=0;j<data1[i].ratings.length;j++){ 
+              sum = sum + (data1[i].ratings[j].ratingsCount);
+              }
+
+              ratingsCount = Math.floor(sum/data1[i].ratings.length)
+            }else{
+              ratingsCount = 0;
+            }
+            var minsellerRatingType = 0, maxsellerRatingType = 5;
+            if(sellerRatingType == ""){
+              minsellerRatingType = 0, maxsellerRatingType = 5;
+            }else{
+              minsellerRatingType = sellerRatingType, maxsellerRatingType = sellerRatingType;
+            }
+
+            var startTime = data1[i].timeStamp;
+            var dat = startTime.toDate();
+            
+            var duration = diff_hours(dat,todayTime);
+            var timeLeft =  data1[i].hours - duration;
+            var auctionHours = 720;
+
+            if(auctionTimeType == "1 Day"){
+              auctionHours = 24;
+            }else if(auctionTimeType == "1 Week"){
+              auctionHours = 168;
+            }else if(auctionTimeType == "1 Month"){
+              auctionHours = 720;
+            }
+
+              if(
+                (data1[i].title.includes(switchToken))&&
+                (data1[i].categoryType.includes(categoryType))
+                &&((data1[i].price>=minPrice) && (data1[i].price<=maxPrice))
+                &&((ratingsCount>=minsellerRatingType)&&(ratingsCount<=maxsellerRatingType))
+                &&(timeLeft<=auctionHours)
+              ){
+                data.push(data1[i])
+              }
+            }
+          
           let htmlCode = ``;
       if(data.length===0){
         htmlCode =    `
@@ -232,6 +344,7 @@
       `;
       }
     else{
+      
    
     for(var i=0;i<data.length;i++){   
 
@@ -242,7 +355,11 @@
       var timeLeft =  data[i].hours - duration;
 
       var timeLeftMessage;
+      if(timeLeft>=24){
+        timeLeftMessage = Math.round(timeLeft/24) +" days left!";
+      }else{
       timeLeftMessage = timeLeft+" hours left!";
+      }
 
       if(timeLeft>0){
 
@@ -299,11 +416,30 @@
 `;
 }else if(data[i].bids){
   var sum = [];
+  var starsCode = ``;
+      var ratingsCount = 0;
 
+      if(data[i].ratings && data[i].ratings.length>0){
+        var sum1 = 0;
+        for(var j=0;j<data[i].ratings.length;j++){ 
+        sum1 = sum1 + (data[i].ratings[j].ratingsCount);
+        }
+
+        var average = Math.floor(sum1/data[i].ratings.length)
+        for(var k=0;k<parseInt(average);k++){
+          starsCode = starsCode + `<li><i class="fa fa-star"></i></li>`
+        }
+        ratingsCount = data[i].ratings.length;
+
+      }else{
+        starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
+      }
   for(var j=0;j<data[i].bids.length;j++){
     sum.push(data[i].bids[j].bidAmount);
     sum.sort(function(a, b){return a - b})
-  if(data[i].bids[j].email.includes(localStorage.getItem("userEmail"))&&data[i].bids[j].bidAmount.includes(sum[sum.length-1])){
+
+  if((data[i].bids[j].email.includes(localStorage.getItem("userEmail")))&&(data[i].bids[j].bidAmount===(sum[sum.length-1]))){
+
   htmlCode =
       htmlCode
    +
@@ -317,13 +453,10 @@
                 <a href="#"><h4> ${"You won the bid!"}</h4></a>
                 <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
+                  ${starsCode}
+                
                 </ul>
-                <span>Reviews (21)</span>
+                <p class="stars">Reviews (${ratingsCount})</p>
                 <Button  onclick="buyProduct('${data[i].id}')" style="background-color:#f33f3f; color: #fff;
 	font-size: 14px;
 	text-transform: capitalize;
@@ -445,8 +578,14 @@ allProducts.innerHTML = htmlCode;
 
     <script>
       function searchInput(){
-        var searchText  = document.getElementById("search-input").value;
-        showData(searchText);
+        var searchText = null, categoryType = null, priceType = null, sellerRatingType = null, auctionTimeType = null;
+        searchText  = document.getElementById("search-input").value;
+        categoryType  = document.getElementById("categoryType").value;
+        priceType  = document.getElementById("priceType").value;
+        sellerRatingType  = document.getElementById("sellerRatingType").value;
+        auctionTimeType  = document.getElementById("auctionTimeType").value;
+
+        showData(searchText,categoryType,priceType,sellerRatingType,auctionTimeType);
         document.getElementById("search-input").value = "";
       }
     </script>
