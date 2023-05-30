@@ -102,12 +102,16 @@ https://templatemo.com/tm-546-sixteen-clothing
                  </div>
                  <div class="_product-images" id="productImages">
                     <div class="picZoomer">
-                       <img class="my_img" id="productImage" src="https://s.fotorama.io/1.jpg" alt="">
+                       <!-- <img class="goOnZoom" id="productImage" src="https://s.fotorama.io/1.jpg" alt="" onmousemove="zoom(event)" ontouchmove="zoom(event)"> -->
+                       <figure class='goOnZoom' id="productMainImage"  style="background-image: url('https://s.fotorama.io/1.jpg');" onmousemove="zoom(event)" ontouchmove="zoom(event)">
+                        <img id="productImage" src="https://s.fotorama.io/1.jpg" >
+                    </figure>
                     </div>
                  </div>
               </div>
               <div class="col-md-6">
                  <div class="_product-detail-content">
+                
                     <p class="_p-name" id="productName"> Name of product </p>
                     <div class="_p-price-box">
                        <div class="p-list">
@@ -159,6 +163,8 @@ https://templatemo.com/tm-546-sixteen-clothing
                       </script>
                     </div>
                  </div>
+
+              
               </div>
            </div>
         </div>
@@ -344,6 +350,7 @@ allProducts.innerHTML = htmlCode;
     const productImage = document.getElementById("productImage");
     const numberOfBids = document.getElementById("numberOfBids");
     const highestBid = document.getElementById("highestBid");
+    const productMainImage = document.getElementById("productMainImage");
 
     const p1 = document.getElementById("p1");
     const p2 = document.getElementById("p2");
@@ -361,6 +368,7 @@ allProducts.innerHTML = htmlCode;
         price.innerText = data.price;
         paragraph.innerText = data.description;
         productImage.src = data.image;
+        productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
         p1.src = data.image[0];
         if(data.image[1]){
           p2.src = data.image[1];
@@ -395,6 +403,7 @@ allProducts.innerHTML = htmlCode;
         price.innerText = amount;
         paragraph.innerText = description;
         productImage.src = productimage;
+        productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
         p1.src = data.productimage[0];
         if(data.productimage[1]){
           p2.src = data.productimage[1];
@@ -436,7 +445,6 @@ function logout(){
 
 <script>
   var myProducts = document.getElementById('myProducts');
-  var addProducts = document.getElementById('addProducts');
    auth.onAuthStateChanged(function(user){
         if(user){
             var userEmail = user.email;
@@ -451,11 +459,9 @@ function logout(){
 
                 if(snapshot.docs.length==0){
                   myProducts.style.display = "block";
-                    addProducts.style.display = "block";
                 }else{
                
                     myProducts.style.display = "none";
-                  addProducts.style.display = "none";
                 }
             });
         }
@@ -512,7 +518,7 @@ document.getElementById('form1')
                     });
                       });
                     }else{
-                      alert("Bid Amount should not be lesser than product price!");
+                      alert("Bid Amount should not be lesser than or equal to the product price!");
                     }
                     }).catch(err=>{
                         alert(err)
@@ -524,7 +530,10 @@ document.getElementById('form1')
                     window.location = "login.html";
                 }
             });
-        }
+        }else{
+        alert("Please login to submit bid");
+        window.location = "login.html";
+       }
     });
 
 });
