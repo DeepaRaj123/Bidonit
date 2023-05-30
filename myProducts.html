@@ -58,7 +58,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item active">
                 <a class="nav-link" href="products.html">My Products</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" id="addProducts">
                 <a class="nav-link" href="addProducts.html">Add products</a>
               </li>
               <li class="nav-item" id="userLogin">
@@ -388,14 +388,17 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
 
 <script>
     const auth = firebase.auth();
+    var addProducts = document.getElementById('addProducts');
 
   auth.onAuthStateChanged(function(user){
    if(user){
     document.getElementById("logout").style.display = "block";
     document.getElementById("userLogin").style.display = "none";
+    addProducts.style.display = "block";
    }else{
     document.getElementById("logout").style.display = "none";
     document.getElementById("userLogin").style.display = "block";
+    addProducts.style.display = "none";
    }		
 });
 function logout(){

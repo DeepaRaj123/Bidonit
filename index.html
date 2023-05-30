@@ -415,7 +415,10 @@
           </div>
 `;
 }else if(data[i].bids){
-  var sum = [];
+  
+  auth.onAuthStateChanged(function(user){
+        if(user){
+          var sum = [];
   var starsCode = ``;
       var ratingsCount = 0;
 
@@ -468,7 +471,10 @@
               </div>
             </div>
           </div>
-`;}}}
+`;}}
+        }
+    });
+}
 if(htmlCode == ``&& i ==data.length-1 ){
   htmlCode =    `
 

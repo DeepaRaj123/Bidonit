@@ -238,12 +238,13 @@ jQuery( document ).ready(function( $ ) {
 })(jQuery); 
 
 
-
 $(document).ready(function () {
-     $('.picZoomer').picZoomer();
+     $('.goOnZoom').picZoomer();
     $('.piclist li').on('click', function (event) {
         var $pic = $(this).find('img');
         $('.picZoomer-pic').attr('src', $pic.attr('src'));
+        $('.goOnZoom').css('background-image','url('+$pic.attr('src')+')');
+
     });
    
   var owl = $('#recent_post');
@@ -305,3 +306,13 @@ $(document).ready(function () {
           input.attr("type", "password");
         }
       });
+
+
+      function zoom(e){
+        var zoomer = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = offsetX/zoomer.offsetWidth*100
+        y = offsetY/zoomer.offsetHeight*100
+        zoomer.style.backgroundPosition = x + '% ' + y + '%';
+      }
