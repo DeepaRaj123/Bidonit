@@ -274,6 +274,19 @@
             }));
    
             var data = [], minPrice = 0, maxPrice = 20000;
+          if(categoryType == "Select category"){
+            categoryType = ""; 
+          }  
+          if((priceType == "Select price range") || (priceType == "All Prices") ){
+            priceType = ""; 
+          }  
+          if(sellerRatingType == "Select seller rating"){
+            sellerRatingType = ""; 
+          }  
+          if(auctionTimeType == "Sort by Auction time"){
+            auctionTimeType = ""; 
+          }  
+
           if(priceType == "Under ₹300") {
             maxPrice = 300;
           } 
@@ -334,7 +347,12 @@
                 data.push(data1[i])
               }
             }
-          
+            console.log(switchToken)
+            console.log(categoryType)
+            console.log(priceType)
+            console.log(sellerRatingType)
+            console.log(auctionTimeType)
+
           let htmlCode = ``;
       if(data.length===0){
         htmlCode =    `
