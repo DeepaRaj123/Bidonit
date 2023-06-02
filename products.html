@@ -417,6 +417,7 @@ allProducts.innerHTML = htmlCode;
 function logout(){
    auth.signOut();
    window.location = "login.html";
+   localStorage.setItem("userEmail","");
 }
 </script>
 
@@ -556,6 +557,7 @@ function submitBid(){
         function logout(){
             auth.signOut();
             window.location = "login.html";
+            localStorage.setItem("userEmail","");
         }
   </script>
   </body>
