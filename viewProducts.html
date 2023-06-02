@@ -102,7 +102,6 @@ https://templatemo.com/tm-546-sixteen-clothing
                  </div>
                  <div class="_product-images" id="productImages">
                     <div class="picZoomer">
-                       <!-- <img class="goOnZoom" id="productImage" src="https://s.fotorama.io/1.jpg" alt="" onmousemove="zoom(event)" ontouchmove="zoom(event)"> -->
                        <figure class='goOnZoom' id="productMainImage"  style="background-image: url('https://s.fotorama.io/1.jpg');" onmousemove="zoom(event)" ontouchmove="zoom(event)">
                         <img id="productImage" src="https://s.fotorama.io/1.jpg" >
                     </figure>
@@ -440,6 +439,7 @@ allProducts.innerHTML = htmlCode;
 function logout(){
    auth.signOut();
    window.location = "login.html";
+   localStorage.setItem("userEmail","");
 }
 </script>
 

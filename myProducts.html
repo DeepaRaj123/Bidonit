@@ -101,10 +101,12 @@ https://templatemo.com/tm-546-sixteen-clothing
                   </ul>
                </div>
                <div class="_product-images" id="productImages">
-                  <div class="picZoomer">
-                     <img class="my_img" id="productImage" src="https://s.fotorama.io/1.jpg" alt="">
-                  </div>
-               </div>
+                <div class="picZoomer">
+                   <figure class='goOnZoom' id="productMainImage"  style="background-image: url('https://s.fotorama.io/1.jpg');" onmousemove="zoom(event)" ontouchmove="zoom(event)">
+                    <img id="productImage" src="https://s.fotorama.io/1.jpg" >
+                </figure>
+                </div>
+             </div>
             </div>
             <div class="col-md-6">
                <div class="_product-detail-content">
@@ -311,6 +313,7 @@ const paragraph = document.getElementById("paragraph");
 const productImage = document.getElementById("productImage");
 const numberOfBids = document.getElementById("numberOfBids");
 const highestBid = document.getElementById("highestBid");
+const productMainImage = document.getElementById("productMainImage");
 
 const p1 = document.getElementById("p1");
 const p2 = document.getElementById("p2");
@@ -328,6 +331,7 @@ customersRef
     price.innerText = data.price;
     paragraph.innerText = data.description;
     productImage.src = data.image;
+    productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
     p1.src = data.image[0];
         if(data.image[1]){
           p2.src = data.image[1];
@@ -363,6 +367,7 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
     price.innerText = amount;
     paragraph.innerText = description;
     productImage.src = productimage;
+    productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
     p1.src = data.productimage[0];
         if(data.productimage[1]){
           p2.src = data.productimage[1];
@@ -404,6 +409,7 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
 function logout(){
    auth.signOut();
   window.location = "login.html";
+  localStorage.setItem("userEmail","");
 }
 </script>
 

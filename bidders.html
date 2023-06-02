@@ -286,6 +286,7 @@ allProducts.innerHTML = htmlCode;
         function logout(){
             auth.signOut();
             window.location = "login.html";
+            localStorage.setItem("userEmail","");
         }
   </script>
   </body>

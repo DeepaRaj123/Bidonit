@@ -250,6 +250,7 @@ auth.onAuthStateChanged(function(user){
 function logout(){
 auth.signOut();
 window.location = "login.html";
+localStorage.setItem("userEmail","");
 }
 
 function addProduct() {
