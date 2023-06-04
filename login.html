@@ -343,8 +343,6 @@ const confirmpasswordLabel = document.getElementById("confirmpasswordLabel");
 const ref = firebase.storage().ref();
 const file = document.querySelector("#identityProof").files[0];
 
-console.log(file)
-
  if (email.trim() == "") {
    alert("Email missing!");
  }
@@ -371,6 +369,9 @@ console.log(file)
  }
  else if(file == undefined){
   alert("Upload Identity Proof");
+ }
+ else if(phoneNumber.trim().length <10 || phoneNumber.trim().length >13){
+  alert("Phone Number is invalid");
  }
  else {
   const file = document.querySelector("#identityProof").files[0];

@@ -56,7 +56,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item active">
-                <a class="nav-link" href="products.html">My Products</a>
+                <a class="nav-link" href="myProducts.html">My Products</a>
               </li>
               <li class="nav-item" id="addProducts">
                 <a class="nav-link" href="addProducts.html">Add products</a>
@@ -255,6 +255,25 @@ for(var i=0;i<data.length;i++){
     bidStatus = "Bid Status : No bids yet";
   }
 
+  var starsCode = ``;
+      var ratingsCount = 0;
+      if(data[i].ratings){
+        if(data[i].ratings.length>0){
+        var sum1 = 0;
+        for(var j=0;j<data[i].ratings.length;j++){ 
+        sum1 = sum1 + (data[i].ratings[j].ratingsCount);
+        }
+
+        var average = Math.floor(sum1/data[i].ratings.length)
+        for(var k=0;k<parseInt(average);k++){
+          starsCode = starsCode + `<li><i class="fa fa-star"></i></li>`
+        }
+        ratingsCount = data[i].ratings.length;
+      }
+      }else{
+        starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
+      }
+
   htmlCode =
   htmlCode
    +
@@ -267,14 +286,10 @@ for(var i=0;i<data.length;i++){
                 <h6>₹${data[i].price}</h6>
                 <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
+                  ${starsCode}
                 </ul>
                 <p>${bidStatus}</p>
-                <span>Reviews (21)</span>
+                <p class="stars">Reviews (${ratingsCount})</p>
                 <i class="fa fa-trash" onclick="deleteProduct('${data[i].id}')"></i>
               </div>
             </div>
