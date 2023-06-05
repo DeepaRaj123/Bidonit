@@ -1078,15 +1078,15 @@ footer .inner-content p a {
 	left: 0;
 }
 .picZoomer-pic{
-	width: 100%;
-	height: 100%;
+	width: 0%;
+	height: 0%;
 }
 .picZoomer-zoom-wp{
 	display: none;
 	position: absolute;
 	z-index: 999;
 	overflow: hidden;
-    border:1px solid #eee;
+    border:1px solid transparent;
     height: 460px;
     margin-top: -19px;
 }
@@ -1099,7 +1099,7 @@ footer .inner-content p a {
 	top: 0;
 	left: 0;
 	border-radius: 50%;
-	border: 1px solid #eee;
+	border: 1px solid transparent;
 	background-color: rgba(0,0,0,.1);
 }
 .picZoomCursor-ico{
@@ -1133,7 +1133,7 @@ footer .inner-content p a {
 /* custom style */
 .picZoomer-pic-wp,
 .picZoomer-zoom-wp{
-    border: 1px solid #eee;
+    border: 1px solid transparent;
 }
 
 
