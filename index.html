@@ -347,12 +347,6 @@
                 data.push(data1[i])
               }
             }
-            // console.log(switchToken)
-            // console.log(categoryType)
-            // console.log(priceType)
-            // console.log(sellerRatingType)
-            // console.log(auctionTimeType)
-
           let htmlCode = ``;
       if(data.length===0){
         htmlCode =    `
@@ -399,6 +393,8 @@
       }else{
         starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
       }
+
+      localStorage.setItem("id",data[i].id);
 
       htmlCode =
       htmlCode
