@@ -93,7 +93,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
- const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
   authDomain: "test-project-cdbb7.firebaseapp.com",
   databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
@@ -117,16 +117,16 @@
    var productId = localStorage.getItem("id");
    var userEmails = [];
    db.collection("Products").doc(productId).get().then(result=>{
-                    if(result.data().bids){
-                    if(result.data().bids.length>0){
-                        for(var i=0;i<result.data().bids.length;i++){
-                            if(result.data().bids[i].email!=userEmail)
-                            userEmails.push(result.data().bids[i])
-                        }
-                    }
-                    }
+                    // if(result.data().bids){
+                    // if(result.data().bids.length>0){
+                    //     for(var i=0;i<result.data().bids.length;i++){
+                    //         if(result.data().bids[i].email!=userEmail)
+                    //         userEmails.push(result.data().bids[i])
+                    //     }
+                    // }
+                    // }
                     db.collection("Products").doc(productId).update({
-                    "bids": userEmails}).then(result=>{
+                    "bids": []}).then(result=>{
                     localStorage.setItem("id",productId);    
                     alert('Payment Successful! Your order will be delivered in 5 business days.');
                     window.location = "sellerRatings.html";                              

@@ -169,7 +169,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
- const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
   authDomain: "test-project-cdbb7.firebaseapp.com",
   databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
@@ -181,9 +181,10 @@ https://templatemo.com/tm-546-sixteen-clothing
 };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
+
       var db = firebase.firestore();
-   
-    </script>
+
+       </script>
 
     <script language = "text/Javascript"> 
       cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
@@ -225,14 +226,21 @@ if(data.length===0){
 }
 else{
 
-
 for(var i=0;i<data.length;i++){   
 
 htmlCode =
 htmlCode
  +
 `
-<li  onclick="viewDetails('${data[i].id}')">${data[i].name}</li>
+<li>
+<table width="100%">
+<tr>
+    <td onclick="viewDetails('${data[i].id}')" style="width:65%">${data[i].name}</td>
+    <td onclick="deleteUser('${data[i].id}')" style="width:35%"><button > Delete Seller </button></td>
+  </tr>            </table>
+</li>
+
+
 `;
 }}
 
@@ -247,6 +255,34 @@ allProducts.innerHTML = htmlCode;
     var address = document.getElementById("address");
     var identityProofImage = document.getElementById("identityProofImage");
     var identityProofPdf = document.getElementById("identityProofPdf");
+
+ 
+  
+    function deleteUser(value)
+    {
+      var result = confirm("Want to delete?");
+      if (result) {
+
+    var userRef = db.collection("Seller").doc(value);
+    var productsRef = db.collection("Products").where("sellerId","==",value);
+
+    userRef
+    .delete()
+    .then((querySnapshot) => {
+      productsRef.get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        doc.ref.delete();
+        
+    });
+    alert('Successfully deleted user');
+    });
+
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    }); 
+    
+    }
+    }
 
     function viewDetails(value)
     {

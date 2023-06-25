@@ -214,7 +214,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
- const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
   authDomain: "test-project-cdbb7.firebaseapp.com",
   databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
@@ -280,7 +280,15 @@ function addProduct() {
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(url => {
         images.push(url);
-        console.log(url)
+        var sellerRef = db.collection("Seller").where("email","==",email);
+        sellerRef
+        .get()
+        .then((snapshot) => {
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+
 
         if(selectedFiles.length == images.length){
           var newProduct = {
@@ -289,8 +297,9 @@ function addProduct() {
     hours:hours,
     image:images,
     description:description,
-    sellerId: localStorage.getItem("uid"),
+    sellerId: data[0].id,
     sellerEmail: email,
+    sellerName: data[0].name,
     categoryType:categoryType,
     timeStamp: todayTime
   }
@@ -299,9 +308,11 @@ function addProduct() {
 
 alert("Product added Successfully!");
 window.location = "index.html";
+
 }).catch(err=>{
 alert(err)})
-        }
+
+        }});
 
       }).catch(err=>{
         alert(err)

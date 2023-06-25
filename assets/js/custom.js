@@ -316,3 +316,5 @@ $(document).ready(function () {
         y = offsetY/zoomer.offsetHeight*100
         zoomer.style.backgroundPosition = x + '% ' + y + '%';
       }
+
+      
