@@ -110,9 +110,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               </div>
               <div class="col-md-6">
                  <div class="_product-detail-content">
-                  <div class="field">
-                    <label style="font-weight: bold; font-size: large;">Product Details</label>
-                  </div>
+                
                     <p class="_p-name" id="productName"> Name of product </p>
                     <div class="_p-price-box">
                        <div class="p-list">
@@ -141,15 +139,6 @@ https://templatemo.com/tm-546-sixteen-clothing
                         <div class="field">
                           <label >Bid Amount</label>
                           <input type="number" id="bidAmount">
-                        </div>
-                        <div class="field">
-                          <label style="font-weight: bold; font-size: large; margin-top: 10px;">Seller Details</label>
-                        </div>
-                        <div class="field">
-                          <label id="sellerName">Seller Name: </label>
-                        </div>
-                        <div class="field">
-                          <label id="sellerEmail">Seller Email: </label>
                         </div>
                           <div action="" accept-charset="utf-8">
                             <ul class="spe_ul"></ul>
@@ -232,16 +221,16 @@ https://templatemo.com/tm-546-sixteen-clothing
     </script>
     <script>
       // Your web app's Firebase configuration
-  const firebaseConfig = {
-  apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
-  authDomain: "test-project-cdbb7.firebaseapp.com",
-  databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
-  projectId: "test-project-cdbb7",
-  storageBucket: "test-project-cdbb7.appspot.com",
-  messagingSenderId: "124733160779",
-  appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
-  measurementId: "G-RPJP1LE6PD"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
+      authDomain: "test-project-cdbb7.firebaseapp.com",
+      databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
+      projectId: "test-project-cdbb7",
+      storageBucket: "test-project-cdbb7.appspot.com",
+      messagingSenderId: "124733160779",
+      appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
+      measurementId: "G-RPJP1LE6PD"
+    };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -317,7 +306,7 @@ for(var i=0;i<data.length;i++){
       }else{
         starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
       }
-  
+    
   htmlCode =
   htmlCode
    +
@@ -330,7 +319,6 @@ for(var i=0;i<data.length;i++){
                 <h6>₹${data[i].price}</h6>
                 <a ><h4> ${timeLeftMessage}</h4></a>
                 <p class="fifty-chars">${data[i].description}</p>
-                <p> Seller : ${data[i].sellerName}</p>
                 <ul class="stars">
                   ${starsCode}
                 </ul>
@@ -362,8 +350,6 @@ allProducts.innerHTML = htmlCode;
     const numberOfBids = document.getElementById("numberOfBids");
     const highestBid = document.getElementById("highestBid");
     const productMainImage = document.getElementById("productMainImage");
-    const sellerName = document.getElementById("sellerName");
-    const sellerEmail = document.getElementById("sellerEmail");
 
     const p1 = document.getElementById("p1");
     const p2 = document.getElementById("p2");
@@ -380,8 +366,6 @@ allProducts.innerHTML = htmlCode;
         productName.innerText = data.title;
         price.innerText = data.price;
         paragraph.innerText = data.description;
-        sellerName.innerText = "Name: " +data.sellerName;
-        sellerEmail.innerText = "Email: " +data.sellerEmail;
         productImage.src = data.image;
         productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
         p1.src = data.image[0];
