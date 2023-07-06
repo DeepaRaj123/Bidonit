@@ -444,6 +444,8 @@ allProducts.innerHTML = htmlCode;
 
   auth.onAuthStateChanged(function(user){
    if(user){
+    var uid = user.uid;
+  localStorage.setItem("uid", uid);
     document.getElementById("logout").style.display = "block";
     document.getElementById("userLogin").style.display = "none";
    }else{
@@ -463,6 +465,8 @@ function logout(){
   var myProducts = document.getElementById('myProducts');
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
@@ -500,6 +504,8 @@ document.getElementById('form1')
 
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");

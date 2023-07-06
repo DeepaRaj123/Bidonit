@@ -412,6 +412,8 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
 
   auth.onAuthStateChanged(function(user){
    if(user){
+    var uid = user.uid;
+  localStorage.setItem("uid", uid);
     document.getElementById("logout").style.display = "block";
     document.getElementById("userLogin").style.display = "none";
     addProducts.style.display = "block";

@@ -520,6 +520,8 @@ allProducts.innerHTML = htmlCode;
 
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+          localStorage.setItem("uid", uid);
             var userEmail = user.email;
             localStorage.setItem("userEmail",userEmail);
             var userType, userEmails = [];
@@ -571,6 +573,8 @@ allProducts.innerHTML = htmlCode;
     <script>
       auth.onAuthStateChanged(function(user){
        if(user){
+        var uid = user.uid;
+  localStorage.setItem("uid", uid);
            var email = user.email;
            document.getElementById("logout").style.display = "block";
            document.getElementById("userLogin").style.display = "none";

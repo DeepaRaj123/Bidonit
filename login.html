@@ -327,6 +327,11 @@ const firebaseConfig = {
 <script>
 //invokes firebase authentication.
 
+function validateEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
 function register() {
 const email = document.getElementById("email").value;
 const name = document.getElementById("name").value;
@@ -360,6 +365,9 @@ const file = document.querySelector("#identityProof").files[0];
  }
  else if (address.trim() == "") {
    alert("Address missing!");
+ } 
+ else if (!validateEmail(email)) {
+   alert("Email Address is invalid");
  } 
  else if (password.trim().length < 7) {
    alert("Password must be at least 7 characters");

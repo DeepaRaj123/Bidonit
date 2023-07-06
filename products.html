@@ -444,6 +444,8 @@ function logout(){
   var addProducts = document.getElementById('addProducts');
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
@@ -480,6 +482,8 @@ document.getElementById('form1')
 
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
