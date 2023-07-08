@@ -235,7 +235,7 @@ $(".done").on("click", function () {
             if(result.data().ratings.length>0){
                 for(var i=0;i<result.data().ratings.length;i++){
                     if(result.data().ratings[i].email!=userEmail)
-                    userEmails.push(result.data().bids[i])
+                    userEmails.push(result.data().ratings[i])
                 }
             }
         }

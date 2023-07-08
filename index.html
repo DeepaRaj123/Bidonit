@@ -574,8 +574,11 @@ allProducts.innerHTML = htmlCode;
       auth.onAuthStateChanged(function(user){
        if(user){
         var uid = user.uid;
+        var email = user.email;
+
   localStorage.setItem("uid", uid);
-           var email = user.email;
+  localStorage.setItem("email", email);
+
            document.getElementById("logout").style.display = "block";
            document.getElementById("userLogin").style.display = "none";
 

@@ -530,8 +530,8 @@ document.getElementById('form1')
                       bidAmount:bidAmount
                     }
                     userEmails.push(finalObject);
-                    document.getElementById("reply_to1").value = userEmail;
-                    document.getElementById("to_name1").value = userEmail;
+                    document.getElementById("reply_to1").value = result.data().sellerEmail;
+                    document.getElementById("to_name1").value =  result.data().sellerEmail;
                     db.collection("Products").doc(productId).update({
                     "bids": userEmails}).then(result=>{
                       emailjs.sendForm(serviceID, templateID, form1)

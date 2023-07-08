@@ -253,7 +253,21 @@ window.location = "login.html";
 localStorage.setItem("userEmail","");
 }
 
-function addProduct() {
+function addProduct(){
+  var data;
+  var sellerRef = db.collection("Seller").where("email","==",email);
+        sellerRef
+        .get()
+        .then((snapshot) => {
+            data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+            addProduct1(data);
+          });
+}
+
+function addProduct1(data) {
   const title = document.getElementById("title").value;
   const price = document.getElementById("price").value;
   const hours = document.getElementById("hours").value;
@@ -261,7 +275,7 @@ function addProduct() {
   const categoryType =  document.getElementById("categoryType").value;
   const ref = firebase.storage().ref();
   const selectedFiles = [...document.querySelector("#image").files];
-
+  console.log(data)
     var todayTime = new Date();
 
    if (title.trim() == ""||price.trim() == ""||hours.trim() == ""||description.trim() == ""||selectedFiles==undefined) {
@@ -280,15 +294,7 @@ function addProduct() {
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(url => {
         images.push(url);
-        var sellerRef = db.collection("Seller").where("email","==",email);
-        sellerRef
-        .get()
-        .then((snapshot) => {
-            var data = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            }));
-
+    
 
         if(selectedFiles.length == images.length){
           var newProduct = {
@@ -304,6 +310,7 @@ function addProduct() {
     timeStamp: todayTime
   }
 
+
   db.collection("Products").doc().set(newProduct).then(result=>{
 
 alert("Product added Successfully!");
@@ -312,7 +319,7 @@ window.location = "index.html";
 }).catch(err=>{
 alert(err)})
 
-        }});
+        }
 
       }).catch(err=>{
         alert(err)

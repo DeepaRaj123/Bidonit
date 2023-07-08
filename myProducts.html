@@ -211,7 +211,7 @@ const firebaseConfig = {
     <script>
   let servicesSection = document.getElementById("services");
 
-    var customersRef = db.collection("Products").where("sellerId","==",localStorage.getItem("uid"));
+    var customersRef = db.collection("Products").where("sellerEmail","==",localStorage.getItem("email"));
         customersRef
         .get()
         .then((snapshot) => {
@@ -220,7 +220,8 @@ const firebaseConfig = {
             ...doc.data(),
             }));
 
-        
+            console.log(localStorage.getItem("email"))
+
           let htmlCode = ``;
 
   if(data.length===0){
