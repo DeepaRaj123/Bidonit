@@ -317,7 +317,6 @@ for(var i=0;i<data.length;i++){
       }else{
         starsCode = starsCode + `<li><i class="fa fa-star" style="color:white"></i></li>`
       }
-  
   htmlCode =
   htmlCode
    +
@@ -411,32 +410,50 @@ allProducts.innerHTML = htmlCode;
           highestBid.innerText = sum[sum.length-1];
         }
     });
-    function viewProduct(value,title,amount,description,productimage)
+    function viewProduct(value,title,amount,description,data3)
     {
+      var customersRef = db.collection("Products").doc(value);
 
         localStorage.setItem("id",value);
-        productName.innerText = title;
-        price.innerText = amount;
-        paragraph.innerText = description;
-        productImage.src = productimage;
 
-        productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
-        p1.src = productimage[0];
-        if(productimage[1]){
-          p2.src = productimage[1];
+      customersRef
+    .get()
+    .then((snapshot) => {
+        var data = snapshot.data();
+        productName.innerText = data.title;
+        price.innerText = data.price;
+        paragraph.innerText = data.description;
+        sellerName.innerText = "Name: " +data.sellerName;
+        sellerEmail.innerText = "Email: " +data.sellerEmail;
+        productImage.src = data.image;
+        productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
+        p1.src = data.image[0];
+        if(data.image[1]){
+          p2.src = data.image[1];
         }else{
-          p2.src = productimage[0];
+          p2.src = data.image[0];
         }
-        if(productimage[2]){
-          p3.src = productimage[2];
+        if(data.image[2]){
+          p3.src = data.image[2];
         }else{
-          p3.src = productimage[0];
+          p3.src = data.image[0];
         }
-        if(productimage[3]){
-          p4.src = productimage[3];
+        if(data.image[3]){
+          p4.src = data.image[3];
         }else{
-          p4.src = productimage[0];
+          p4.src = data.image[0];
         }
+        var sum = [];
+        if(data.bids)
+        numberOfBids.innerText = data.bids.length;
+        if(data.bids && data.bids.length>0){
+          for(var j=0;j<data.bids.length;j++){ 
+            sum.push(data.bids[j].bidAmount);
+          }
+          sum.sort(function(a, b){return a - b});
+          highestBid.innerText = sum[sum.length-1];
+        }
+    });
 
     }
     </script>
