@@ -272,7 +272,6 @@
             id: doc.id,
             ...doc.data(),
             }));
-
             var data = [], minPrice = 0, maxPrice = 20000;
           if(categoryType == "Select category"){
             categoryType = ""; 
@@ -300,7 +299,7 @@
             minPrice = 1001;
           }
           else if(priceType == "") {
-            minPrice = 0,maxPrice=20000;
+            minPrice = 0,maxPrice=200000;
           }
           var ratingsCount = 0;
             for(var i=0;i<data1.length;i++){
@@ -337,6 +336,7 @@
               auctionHours = 720;
             }
 
+
               if(
                 (data1[i].title.includes(switchToken))
                 &&(data1[i].categoryType.includes(categoryType))
@@ -348,6 +348,7 @@
   
                 data.push(data1[i])
               }
+
             }
            
 

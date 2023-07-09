@@ -413,27 +413,29 @@ allProducts.innerHTML = htmlCode;
     });
     function viewProduct(value,title,amount,description,productimage)
     {
+
         localStorage.setItem("id",value);
         productName.innerText = title;
         price.innerText = amount;
         paragraph.innerText = description;
         productImage.src = productimage;
+
         productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
-        p1.src = data.productimage[0];
-        if(data.productimage[1]){
-          p2.src = data.productimage[1];
+        p1.src = productimage[0];
+        if(productimage[1]){
+          p2.src = productimage[1];
         }else{
-          p2.src = data.productimage[0];
+          p2.src = productimage[0];
         }
-        if(data.productimage[2]){
-          p3.src = data.productimage[2];
+        if(productimage[2]){
+          p3.src = productimage[2];
         }else{
-          p3.src = data.productimage[0];
+          p3.src = productimage[0];
         }
-        if(data.productimage[3]){
-          p4.src = data.productimage[3];
+        if(productimage[3]){
+          p4.src = productimage[3];
         }else{
-          p4.src = data.productimage[0];
+          p4.src = productimage[0];
         }
 
     }

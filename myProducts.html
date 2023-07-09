@@ -337,12 +337,17 @@ const p3 = document.getElementById("p3");
 const p4 = document.getElementById("p4");
 
 var id = localStorage.getItem("id");
-var customersRef = db.collection("Products").doc(id);
+var customersRef = db.collection("Products").where("sellerEmail","==",localStorage.getItem("email"));;
 
 customersRef
 .get()
 .then((snapshot) => {
-    var data = snapshot.data();
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+    data = data[0];
+    console.log(data[0])
     productName.innerText = data.title;
     price.innerText = data.price;
     paragraph.innerText = data.description;
