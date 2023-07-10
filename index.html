@@ -330,15 +330,15 @@
 
             if(auctionTimeType == "1 Day"){
               auctionHours = 24;
+
             }else if(auctionTimeType == "1 Week"){
               auctionHours = 168;
             }else if(auctionTimeType == "1 Month"){
               auctionHours = 720;
             }
 
-
               if(
-                (data1[i].title.includes(switchToken))
+                (data1[i].title.toLowerCase().includes(switchToken.toLowerCase()))
                 &&(data1[i].categoryType.includes(categoryType))
                 &&((data1[i].price>=minPrice) && (data1[i].price<=maxPrice))
                 &&(ratingsCount>=minsellerRatingType)
@@ -347,6 +347,8 @@
               ){
   
                 data.push(data1[i])
+                console.log(timeLeft)
+
               }
 
             }
@@ -527,7 +529,7 @@ allProducts.innerHTML = htmlCode;
             localStorage.setItem("userEmail",userEmail);
             var userType, userEmails = [];
             var customersRef = db.collection("Bidder").where("email", '==', userEmail);
-
+            console.log(userEmail)
             customersRef
             .get()
             .then((snapshot) => {
