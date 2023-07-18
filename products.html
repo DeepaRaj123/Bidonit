@@ -90,21 +90,23 @@ https://templatemo.com/tm-546-sixteen-clothing
     <section id="services" style="display: none;">
         <div class="container-fluid">
            <div class="row row-sm">
-              <div class="col-md-6 _boxzoom">
-                 <div class="zoom-thumb">
-                    <ul class="piclist" id="piclist">
-                       <li><img src="" alt="" id="p1"></li>
-                       <li><img src="" alt="" id="p2"></li>
-                       <li><img src="" alt="" id="p3"></li>
-                       <li><img src="" alt="" id="p4"></li>
-                    </ul>
-                 </div>
-                 <div class="_product-images" id="productImages">
-                    <div class="picZoomer">
-                       <img class="my_img" id="productImage" src="https://s.fotorama.io/1.jpg" alt="">
-                    </div>
+            <div class="col-md-6 _boxzoom">
+              <div class="zoom-thumb">
+                 <ul class="piclist" id="piclist">
+                    <li><img src="" alt="" id="p1"></li>
+                    <li><img src="" alt="" id="p2"></li>
+                    <li><img src="" alt="" id="p3"></li>
+                    <li><img src="" alt="" id="p4"></li>
+                 </ul>
+              </div>
+              <div class="_product-images" id="productImages">
+                 <div class="picZoomer">
+                    <figure class='goOnZoom' id="productMainImage"  style="background-image: url('https://s.fotorama.io/1.jpg');" onmousemove="zoom(event)" ontouchmove="zoom(event)">
+                     <img id="productImage" src="https://s.fotorama.io/1.jpg" >
+                 </figure>
                  </div>
               </div>
+           </div>
               <div class="col-md-6">
                  <div class="_product-detail-content">
                     <p class="_p-name" id="productName"> Name of product </p>
@@ -201,16 +203,16 @@ https://templatemo.com/tm-546-sixteen-clothing
     </script>
     <script>
       // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
-      authDomain: "test-project-cdbb7.firebaseapp.com",
-      databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
-      projectId: "test-project-cdbb7",
-      storageBucket: "test-project-cdbb7.appspot.com",
-      messagingSenderId: "124733160779",
-      appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
-      measurementId: "G-RPJP1LE6PD"
-    };
+  const firebaseConfig = {
+  apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
+  authDomain: "test-project-cdbb7.firebaseapp.com",
+  databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
+  projectId: "test-project-cdbb7",
+  storageBucket: "test-project-cdbb7.appspot.com",
+  messagingSenderId: "124733160779",
+  appId: "1:124733160779:web:95ee5fe1bad28e3491fcce",
+  measurementId: "G-RPJP1LE6PD"
+};
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -330,6 +332,7 @@ allProducts.innerHTML = htmlCode;
     const productImage = document.getElementById("productImage");
     const numberOfBids = document.getElementById("numberOfBids");
     const highestBid = document.getElementById("highestBid");
+    const productMainImage = document.getElementById("productMainImage");
 
     const p1 = document.getElementById("p1");
     const p2 = document.getElementById("p2");
@@ -347,6 +350,7 @@ allProducts.innerHTML = htmlCode;
         price.innerText = data.price;
         paragraph.innerText = data.description;
         productImage.src = data.image;
+        productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
         p1.src = data.image[0];
         if(data.image[1]){
           p2.src = data.image[1];
@@ -381,6 +385,7 @@ allProducts.innerHTML = htmlCode;
         price.innerText = amount;
         paragraph.innerText = description;
         productImage.src = productimage;
+        productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
         p1.src = data.productimage[0];
         if(data.productimage[1]){
           p2.src = data.productimage[1];
@@ -444,6 +449,8 @@ function logout(){
   var addProducts = document.getElementById('addProducts');
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
@@ -480,6 +487,8 @@ document.getElementById('form1')
 
    auth.onAuthStateChanged(function(user){
         if(user){
+          var uid = user.uid;
+  localStorage.setItem("uid", uid);
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");

@@ -192,7 +192,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
     <script>
       // Your web app's Firebase configuration
- const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC8i6daolY4gs2P7BnaVx6NdcvpGIsCjr0",
   authDomain: "test-project-cdbb7.firebaseapp.com",
   databaseURL: "https://test-project-cdbb7-default-rtdb.firebaseio.com",
@@ -211,7 +211,7 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script>
   let servicesSection = document.getElementById("services");
 
-    var customersRef = db.collection("Products").where("sellerId","==",localStorage.getItem("uid"));
+    var customersRef = db.collection("Products").where("sellerEmail","==",localStorage.getItem("email"));
         customersRef
         .get()
         .then((snapshot) => {
@@ -220,7 +220,8 @@ https://templatemo.com/tm-546-sixteen-clothing
             ...doc.data(),
             }));
 
-        
+            console.log(localStorage.getItem("email"))
+
           let htmlCode = ``;
 
   if(data.length===0){
@@ -280,7 +281,7 @@ for(var i=0;i<data.length;i++){
   `
   <div class="col-md-4">
             <div class="product-item">
-              <a onclick="viewProduct('${data[i].id}','${data[i].title}','${data[i].price}','${data[i].description}','${data[i].image}','${bidLength}','${highestBid}')"><img src=${data[i].image} alt="" width="370" height="170"></a>
+              <a onclick="viewProduct('${data[i].id}','${data[i].title}','${data[i].price}','${data[i].description}','${data[i].image}','${bidLength}','${highestBid}')"><img src=${data[i].image[0]} alt="" width="370" height="170"></a>
               <div class="down-content">
                 <a href="#"><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>
@@ -336,12 +337,16 @@ const p3 = document.getElementById("p3");
 const p4 = document.getElementById("p4");
 
 var id = localStorage.getItem("id");
-var customersRef = db.collection("Products").doc(id);
+var customersRef = db.collection("Products").where("sellerEmail","==",localStorage.getItem("email"));;
 
 customersRef
 .get()
 .then((snapshot) => {
-    var data = snapshot.data();
+            var data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+    data = data[0];
     productName.innerText = data.title;
     price.innerText = data.price;
     paragraph.innerText = data.description;
@@ -378,30 +383,45 @@ customersRef
 function viewProduct(value,title,amount,description,productimage,numberOfBidsValue,highestBidValue)
 {
     localStorage.setItem("id",value);
-    productName.innerText = title;
-    price.innerText = amount;
-    paragraph.innerText = description;
-    productImage.src = productimage;
-    productMainImage.style.backgroundImage ="url(" + productimage + ")" ;
-    p1.src = data.productimage[0];
-        if(data.productimage[1]){
-          p2.src = data.productimage[1];
+    var customersRef = db.collection("Products").doc(value);;
+
+    customersRef
+    .get()
+    .then((snapshot) => {
+        var data = snapshot.data();
+    productName.innerText = data.title;
+    price.innerText = data.price;
+    paragraph.innerText = data.description;
+    productImage.src = data.image;
+    productMainImage.style.backgroundImage ="url(" + data.image + ")" ;
+    p1.src = data.image[0];
+        if(data.image[1]){
+          p2.src = data.image[1];
         }else{
-          p2.src = data.productimage[0];
+          p2.src = data.image[0];
         }
-        if(data.productimage[2]){
-          p3.src = data.productimage[2];
+        if(data.image[2]){
+          p3.src = data.image[2];
         }else{
-          p3.src = data.productimage[0];
+          p3.src = data.image[0];
         }
-        if(data.productimage[3]){
-          p4.src = data.productimage[3];
+        if(data.image[3]){
+          p4.src = data.image[3];
         }else{
-          p4.src = data.productimage[0];
+          p4.src = data.image[0];
         }
     var sum = [];
-    numberOfBids.innerText = numberOfBidsValue;
-    highestBid.innerText = highestBidValue;
+    if(data.bids){
+      numberOfBids.innerText = data.bids.length;
+    }
+    if(data.bids && data.bids.length>0){
+      for(var j=0;j<data.bids.length;j++){ 
+        sum.push(data.bids[j].bidAmount);
+      }
+      sum.sort(function(a, b){return a - b});
+      highestBid.innerText = sum[sum.length-1];
+    }
+});
 
 }
 </script>
@@ -412,6 +432,8 @@ function viewProduct(value,title,amount,description,productimage,numberOfBidsVal
 
   auth.onAuthStateChanged(function(user){
    if(user){
+    var uid = user.uid;
+  localStorage.setItem("uid", uid);
     document.getElementById("logout").style.display = "block";
     document.getElementById("userLogin").style.display = "none";
     addProducts.style.display = "block";
